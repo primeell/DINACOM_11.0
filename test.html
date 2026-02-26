@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+</head>
+<body>
+    <div id="output">Loading...</div>
+    <script>
+        async function runTest() {
+            try {
+                const model = await tf.loadLayersModel('./public/AI/model.json');
+                let out = "Model Loaded.\\n";
+                
+                // 1. Solid black (-1.0)
+                const black = tf.fill([1, 224, 224, 3], -1.0);
+                const pred1 = model.predict(black);
+                const data1 = await pred1.data();
+                out += "Black Image (-1.0) Pred: " + data1[0] + "\\n";
+                
+                // 2. Solid white (+1.0)
+                const white = tf.fill([1, 224, 224, 3], 1.0);
+                const pred2 = model.predict(white);
+                const data2 = await pred2.data();
+                out += "White Image (+1.0) Pred: " + data2[0] + "\\n";
+                
+                // 3. Random noise (-1.0 to 1.0)
+                const noise = tf.randomUniform([1, 224, 224, 3], -1.0, 1.0);
+                const pred3 = model.predict(noise);
+                const data3 = await pred3.data();
+                out += "Random Noise Pred: " + data3[0] + "\\n";
+                
+                document.getElementById('output').innerText = out;
+            } catch (e) {
+                document.getElementById('output').innerText = "Error: " + e.message;
+            }
+        }
+        runTest();
+    </script>
+</body>
+</html>

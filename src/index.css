@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  --color-hospital-blue-50: #f0f9ff;
+  --color-hospital-blue-100: #e0f2fe;
+  --color-hospital-blue-200: #bae6fd;
+  --color-hospital-blue-300: #7dd3fc;
+  --color-hospital-blue-400: #38bdf8;
+  --color-hospital-blue-500: #0ea5e9;
+  --color-hospital-blue-600: #0284c7;
+  --color-hospital-blue-700: #0369a1;
+  --color-hospital-blue-800: #075985;
+  --color-hospital-blue-900: #0c4a6e;
+  --color-hospital-blue-950: #082f49;
+  --color-medical-teal-500: #14B8A6;
+
+  --font-sans: "Inter", sans-serif;
+
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-wave: wave 1.5s ease-in-out infinite;
+
+  @keyframes wave {
+
+    0%,
+    100% {
+      transform: scaleY(0.5);
+    }
+
+    50% {
+      transform: scaleY(1.0);
+    }
+  }
+
+  --animate-ping-slow: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-fade-in: fade-in 0.5s ease-out forwards;
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  background-color: var(--color-hospital-blue-50);
+  color: var(--color-hospital-blue-900);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  max-width: 480px;
+  /* Mobile constraints */
+  margin: 0 auto;
+  background-color: white;
+  min-height: 100vh;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow-x: hidden;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Model Load Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <style>body { font-family: monospace; padding: 20px; color: #333; } .error { color: red; } .success { color: green; }</style>
+</head>
+<body>
+    <h1>TensorFlow.js Model Loader Test</h1>
+    <div id="status">Status: Idle</div>
+    <pre id="log" style="background:#f4f4f4; padding: 10px; border: 1px solid #ddd;"></pre>
+    <script>
+        const log = document.getElementById('log');
+        const status = document.getElementById('status');
+        function print(msg) { 
+            console.log(msg); 
+            log.innerText += msg + "\n"; 
+        }
+
+        async function run() {
+            try {
+                status.innerText = "Status: Loading...";
+                print("Attempting to load model as LayersModel...");
+                
+                // Force cache bust
+                const url = '/AI/model.json?v=' + Date.now();
+                print(`URL: ${url}`);
+                
+                const model = await tf.loadLayersModel(url);
+                
+                print("SUCCESS: loadLayersModel returned an object.");
+                status.innerHTML = "<span class='success'>Status: LOADED (LayersModel)</span>";
+                
+                print("Model Summary:");
+                model.summary(null, null, print);
+                
+            } catch (e) {
+                print("ERROR (LayersModel): " + e.message);
+                console.error(e);
+                
+                status.innerHTML = "<span class='error'>Status: FAILED (LayersModel)</span>";
+                
+                print("\nAttempting fallback to GraphModel...");
+                try {
+                    const url = '/AI/model.json?v=' + Date.now();
+                    const gModel = await tf.loadGraphModel(url);
+                    print("SUCCESS: loadGraphModel returned an object.");
+                    status.innerHTML = "<span class='success'>Status: LOADED (GraphModel)</span>";
+                } catch (e2) {
+                    print("ERROR (GraphModel): " + e2.message);
+                    status.innerHTML = "<span class='error'>Status: FAILED (GraphModel too)</span>";
+                }
+            }
+        }
+        
+        // Wait for TF to be ready
+        window.addEventListener('load', () => {
+           print("TFJS Version: " + tf.version.tfjs);
+           run();
+        });
+    </script>
+</body>
+</html>
