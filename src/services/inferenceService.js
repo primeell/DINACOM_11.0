@@ -8,7 +8,7 @@ let model = null;
 /**
  * Load the model from public folder.
  */
-const timeoutMs = 20000; // 20 second timeout
+const timeoutMs = 120000; // 120 second timeout
 
 export const loadModel = async () => {
     if (model) return model;
